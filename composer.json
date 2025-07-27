@@ -1,0 +1,50 @@
+{
+  "name": "askerakbar/lens",
+  "description": "A sleek, developer-friendly SQL query logger for Laminas MVC applications.",
+  "type": "laminas-module",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "AskerAkbar\\Lens\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AskerAkbarTest\\Lens\\": "test/",
+      "Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Asker Ali Akbar",
+      "email": "43740952+askerakbar@users.noreply.github.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "laminas/laminas-modulemanager": "^2.14",
+    "laminas/laminas-mvc": "^3.5",
+    "laminas/laminas-component-installer": "^3.0",
+    "laminas-api-tools/api-tools-asset-manager": "1.8.x-dev",
+    "laminas/laminas-cli": "^1.11"
+  },
+  "require-dev": {
+    "pestphp/pest": "3.x-dev"
+  },
+  "config": {
+    "allow-plugins": {
+      "laminas/laminas-component-installer": true,
+      "laminas-api-tools/api-tools-asset-manager": true,
+      "pestphp/pest-plugin": true
+    }
+  },
+  "extra": {
+    "laminas": {
+      "module": "AskerAkbar\\Lens"
+    }
+  },
+  "suggest": {
+    "laminas/laminas-cli": "Required to use the lens:publish-migration command and other CLI features."
+  }
+}

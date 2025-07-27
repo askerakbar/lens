@@ -1,0 +1,6 @@
+vendor/
+frontend/node_modules/
+frontend/node_modules/*
+.idea
+.DS_Store
+data/
