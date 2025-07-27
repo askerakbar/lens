@@ -22,17 +22,30 @@ class PublishMigrationCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Target directory to copy the migration file to',
                 'database/migrations'
+            )
+            ->addOption(
+                'doctrine',
+                null,
+                InputOption::VALUE_NONE,
+                'Export a Doctrine migration file instead of raw SQL (if Doctrine is detected)'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $target = $input->getOption('target') ?: 'database/migrations';
-        
+        $useDoctrine = $input->getOption('doctrine') || $this->isDoctrineAvailable();
+
         // Find the package root directory
         $packageRoot = $this->findPackageRoot();
-        $source = $packageRoot . '/migrations/2024_05_01_000000_create_query_log_table.sql';
-        
+        if ($useDoctrine) {
+            $source = $packageRoot . '/migrations/Version20240501CreateQueryLogTable.php';
+            $dest = rtrim($target, '/\\') . '/Version20240501CreateQueryLogTable.php';
+        } else {
+            $source = $packageRoot . '/migrations/2024_05_01_000000_create_query_log_table.sql';
+            $dest = rtrim($target, '/\\') . '/2024_05_01_000000_create_query_log_table.sql';
+        }
+
         // Ensure the source file exists
         if (!file_exists($source)) {
             $output->writeln("<error>Migration file not found at: $source</error>");
@@ -44,7 +57,6 @@ class PublishMigrationCommand extends Command
                 return Command::FAILURE;
             }
         }
-        $dest = rtrim($target, '/\\') . '/2024_05_01_000000_create_query_log_table.sql';
         if (copy($source, $dest)) {
             $output->writeln("<info>Migration published to $dest</info>");
             return Command::SUCCESS;
@@ -69,5 +81,12 @@ class PublishMigrationCommand extends Command
         
         // Fallback: if we can't find composer.json, use the original approach
         return dirname(__DIR__, 3);
+    }
+
+    private function isDoctrineAvailable(): bool
+    {
+        // Check for Doctrine Migrations or ORM in vendor
+        $packageRoot = $this->findPackageRoot();
+        return (class_exists('Doctrine\\Migrations\\AbstractMigration'));
     }
 } 
