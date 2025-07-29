@@ -1,5 +1,5 @@
 import  { useState, useEffect, useRef } from 'react'
-import { format } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -52,7 +52,7 @@ function QueryParameters({ parameters }) {
  * @param {object} props
  * @param {object} props.query
  */
-function QueryDetails({ query }) {
+function QueryDetails({ query, timeDisplayMode = 'absolute' }) {
   const sqlRef = useRef(null)
   const [showAll, setShowAll] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -137,7 +137,11 @@ function QueryDetails({ query }) {
                 <div>
                   <div className="text-sm text-gray-500">Time</div>
                   <div className="font-medium">
-                    {query.timestamp ? format(new Date(query.timestamp), 'yyyy-MM-dd HH:mm:ss') : ''}
+                    {query.timestamp ? (
+                      timeDisplayMode === 'relative'
+                        ? formatDistanceToNow(new Date(query.timestamp), { addSuffix: true })
+                        : format(new Date(query.timestamp), 'yyyy-MM-dd HH:mm:ss')
+                    ) : ''}
                   </div>
                 </div>
                 <div>

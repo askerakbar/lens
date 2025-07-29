@@ -3,6 +3,7 @@ import QueryList from './components/QueryList'
 import { queryService } from './services/queryService'
 import { ArrowPathIcon, TrashIcon } from '@heroicons/react/24/solid'
 import SearchInput from './components/SearchInput'
+import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 
 /**
  * App is the main component for the query monitor UI.
@@ -25,6 +26,11 @@ function App() {
     const stored = localStorage.getItem('autoLoadsNewEntries')
     return stored === null ? true : stored === 'true'
   })
+  // Time display mode state
+  const [timeDisplayMode, setTimeDisplayMode] = useState(() => {
+    return localStorage.getItem('timeDisplayMode') || 'relative'
+  })
+  const [showConfig, setShowConfig] = useState(false)
 
   // Refs
   const observer = useRef()
@@ -123,6 +129,11 @@ function App() {
   useEffect(() => {
     localStorage.setItem('autoLoadsNewEntries', autoLoadsNewEntries)
   }, [autoLoadsNewEntries])
+
+  // Persist time display mode
+  useEffect(() => {
+    localStorage.setItem('timeDisplayMode', timeDisplayMode)
+  }, [timeDisplayMode])
 
   // Initial load and when filter/search changes
   useEffect(() => {
@@ -294,6 +305,7 @@ function App() {
         <QueryList 
           queries={queries} 
           lastQueryElementRef={lastQueryElementRef}
+          timeDisplayMode={timeDisplayMode}
         />
         {loadingMore && (
           <div className="flex justify-center py-8">
@@ -311,6 +323,51 @@ function App() {
           </div>
         )}
       </div>
+      {/* Settings Icon and Modal */}
+      <button
+        className="fixed bottom-6 right-6 z-50 bg-white border border-gray-200 rounded-full shadow-lg p-2 hover:bg-gray-100 transition-colors"
+        onClick={() => setShowConfig(true)}
+        title="Configure time display"
+        aria-label="Configure time display"
+      >
+        <Cog6ToothIcon className="h-6 w-6 text-gray-500" />
+      </button>
+      {showConfig && (
+        <div className="fixed inset-0 z-50 flex items-end justify-end">
+          <div className="absolute inset-0 bg-black bg-opacity-10" onClick={() => setShowConfig(false)} />
+          <div className="relative m-6 bg-white rounded-lg shadow-lg p-6 w-72 border border-gray-200">
+            <h3 className="text-lg font-semibold mb-4">Time Display</h3>
+            <div className="space-y-3">
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="timeDisplayMode"
+                  value="relative"
+                  checked={timeDisplayMode === 'relative'}
+                  onChange={() => setTimeDisplayMode('relative')}
+                />
+                <span>Relative (e.g. 2 minutes ago)</span>
+              </label>
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="timeDisplayMode"
+                  value="absolute"
+                  checked={timeDisplayMode === 'absolute'}
+                  onChange={() => setTimeDisplayMode('absolute')}
+                />
+                <span>Absolute (e.g. 2024-06-01 12:34:56)</span>
+              </label>
+            </div>
+            <button
+              className="mt-6 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors"
+              onClick={() => setShowConfig(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import  { useState, useEffect, useCallback } from 'react'
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow, format } from 'date-fns'
 import QueryDetails from './QueryDetails'
 
 /**
@@ -8,7 +8,7 @@ import QueryDetails from './QueryDetails'
  * @param {Array} props.queries - Array of query objects.
  * @param {React.Ref} props.lastQueryElementRef - Ref for the last query element (for infinite scroll).
  */
-function QueryList({ queries, lastQueryElementRef }) {
+function QueryList({ queries, lastQueryElementRef, timeDisplayMode = 'relative' }) {
   const [expandedId, setExpandedId] = useState(null)
   // Memoize transformQuery to avoid unnecessary re-creation
   const transformQuery = useCallback((query) => {
@@ -97,12 +97,14 @@ function QueryList({ queries, lastQueryElementRef }) {
                   <div className="flex items-center space-x-6">
                     <div className="text-sm text-gray-500">{transformedQuery.time}</div>
                     <div className="text-sm text-gray-500">
-                      {formatDistanceToNow(new Date(transformedQuery.timestamp), { addSuffix: true })}
+                      {timeDisplayMode === 'absolute'
+                        ? format(new Date(transformedQuery.timestamp), 'MMM d, h:mm:ss a')
+                        : formatDistanceToNow(new Date(transformedQuery.timestamp), { addSuffix: true })}
                     </div>
                   </div>
                 </div>
               </div>
-              {expandedId === query.id && <QueryDetails query={transformedQuery} />}
+              {expandedId === query.id && <QueryDetails query={transformedQuery} timeDisplayMode={timeDisplayMode} />}
             </div>
           )
         })
