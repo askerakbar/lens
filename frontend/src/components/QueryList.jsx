@@ -8,7 +8,7 @@ import QueryDetails from './QueryDetails'
  * @param {Array} props.queries - Array of query objects.
  * @param {React.Ref} props.lastQueryElementRef - Ref for the last query element (for infinite scroll).
  */
-function QueryList({ queries, lastQueryElementRef, timeDisplayMode = 'relative' }) {
+function QueryList({ queries, lastQueryElementRef, timeDisplayMode = 'absolute' }) {
   const [expandedId, setExpandedId] = useState(null)
   // Memoize transformQuery to avoid unnecessary re-creation
   const transformQuery = useCallback((query) => {
