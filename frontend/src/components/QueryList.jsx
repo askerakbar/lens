@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import  { useState, useEffect, useCallback } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import QueryDetails from './QueryDetails'
 
@@ -10,7 +10,6 @@ import QueryDetails from './QueryDetails'
  */
 function QueryList({ queries, lastQueryElementRef }) {
   const [expandedId, setExpandedId] = useState(null)
-
   // Memoize transformQuery to avoid unnecessary re-creation
   const transformQuery = useCallback((query) => {
     const connectionInfo = query.content?.connection || {}

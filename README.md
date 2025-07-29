@@ -79,10 +79,13 @@ Database storage is the default and requires a database table to be created. Con
    vendor/bin/laminas lens:publish-migration
    # Optional target directory:
    vendor/bin/laminas lens:publish-migration --target=database/migrations
+   # For Doctrine migrations (if Doctrine is detected):
+   vendor/bin/laminas lens:publish-migration --doctrine
    ```
 
 2. **Run the migration:**
-   This generates a standard SQL file—execute it using your preferred method.
+   - **SQL migration:** Execute the generated SQL file using your preferred method
+   - **Doctrine migration:** Run `vendor/bin/doctrine-migrations migrate` (if using Doctrine)
 
 ---
 

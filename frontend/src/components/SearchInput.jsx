@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react'
+import  { useState, useEffect, forwardRef } from 'react'
 
 /**
  * SearchInput component with debounced and immediate change handlers.

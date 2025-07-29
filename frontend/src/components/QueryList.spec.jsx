@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import QueryList from './QueryList';
-import React from 'react';
+import 'react';
 import '@testing-library/jest-dom';
 
 describe('QueryList', () => {

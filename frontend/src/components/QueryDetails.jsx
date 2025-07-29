@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { formatDistanceToNow, format } from 'date-fns'
+import  { useState, useEffect, useRef } from 'react'
+import { format } from 'date-fns'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-sql'
 import 'prismjs/themes/prism-tomorrow.css'

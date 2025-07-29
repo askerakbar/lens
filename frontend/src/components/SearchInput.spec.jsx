@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import SearchInput from './SearchInput';
 import { vi } from 'vitest';
-import React from 'react';
+import 'react';
 import '@testing-library/jest-dom';
 
 describe('SearchInput', () => {

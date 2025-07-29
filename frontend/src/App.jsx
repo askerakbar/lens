@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import  { useState, useEffect, useCallback, useRef } from 'react'
 import QueryList from './components/QueryList'
 import { queryService } from './services/queryService'
 import { ArrowPathIcon, TrashIcon } from '@heroicons/react/24/solid'
