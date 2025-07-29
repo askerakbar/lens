@@ -1,7 +1,7 @@
 
 # Laminas Lens - Query Logger
 
-A sleek, simple, and developer-friendly SQL query logger for Laminas MVC applications.
+A sleek, simple, SQL query logger for Laminas MVC applications.
 
 
 ### Quick Start
